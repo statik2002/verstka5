@@ -27,15 +27,23 @@ def on_reload():
 
     Path(pages_dir).mkdir(exist_ok=True)
 
-    all_chunks = ichunked(books, 10)
+    books_per_page = 10
+
+    all_chunks = ichunked(books, books_per_page)
 
     page_count = 1
+    total_pages = len(books) // books_per_page
+    root = '.'
+
     for chunked_page in all_chunks:
 
         chunked_books = list(chunked(chunked_page, 2))
 
         rendered_page = template.render(
-            chunked_books=list(chunked_books)
+            chunked_books=list(chunked_books),
+            total_pages=total_pages,
+            current_page=page_count,
+            root=root
         )
 
         with open(Path(pages_dir).joinpath(f'index{page_count}.html'), 'w', encoding="utf8") as file:
@@ -47,4 +55,4 @@ def on_reload():
 on_reload()
 server = Server()
 server.watch('template.html', on_reload)
-server.serve(root='.')
+server.serve(root='.', default_filename='pages/index1.html')
