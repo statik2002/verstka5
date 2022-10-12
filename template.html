@@ -13,14 +13,18 @@
   <body>
     <div class="container">
       <nav aria-label="Page navigation example">
-        <ul class="pagination">
+        <ul class="pagination m-3">
           {% if current_page==1 %}
             <li class="page-item disabled"><a class="page-link" href="#">Назад</a></li>
           {% else %}
             <li class="page-item"><a class="page-link" href="../pages/index{{current_page-1}}.html">Назад</a></li>
           {% endif %}
           {% for page in range(total_pages) %}
-            <li class="page-item"><a class="page-link" href="../pages/index{{loop.index}}.html">{{loop.index}}</a></li>
+            {% if loop.index == current_page %}
+              <li class="page-item active"><a class="page-link" href="../pages/index{{loop.index}}.html">{{loop.index}}</a></li>
+            {% else %}
+              <li class="page-item"><a class="page-link" href="../pages/index{{loop.index}}.html">{{loop.index}}</a></li>
+            {% endif %}
           {% endfor %}
           {% if current_page==total_pages %}
             <li class="page-item disabled"><a class="page-link" href="#">Вперед</a></li>
@@ -42,6 +46,11 @@
                     <div class="card-body">
                       <h5 class="card-title">{{ book.book_name }}</h5>
                       <p class="card-text">{{book.book_author}}</p>
+                      <p class="card-text">
+                        {% for genre in book.book_genres %}
+                          <span class="badge badge-pill badge-light">{{genre}}</span>
+                        {% endfor %}
+                      </p>
                       <p><a href="../{{ book.book_txt_url }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Читать</a></p>
                     </div>
                   </div>
