@@ -43,7 +43,6 @@ def on_reload():
             chunked_books=list(chunked_books),
             total_pages=total_pages,
             current_page=page_count,
-            root=root
         )
 
         with open(Path(pages_dir).joinpath(f'index{page_count}.html'), 'w', encoding="utf8") as file:
