@@ -3,6 +3,7 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from livereload import Server, shell
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from more_itertools import chunked
 
 
 def on_reload():
@@ -18,8 +19,10 @@ def on_reload():
 
     books = json.loads(books_json)
 
+    chunked_books = list(chunked(books, 2))
+
     rendered_page = template.render(
-        page=books
+        books=chunked_books
     )
 
     with open('index.html', 'w', encoding="utf8") as file:
@@ -29,4 +32,4 @@ def on_reload():
 on_reload()
 server = Server()
 server.watch('template.html', on_reload)
-server.serve(root='index.html')
+server.serve(root='.')

@@ -11,21 +11,29 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    {% for book in page %}
-      <div class="card mb-3" style="max-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="{{book.book_image_url}}" class="card-img" alt="{{book.book_name}}">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{ book.book_name }}</h5>
-              <p class="card-text">{{book.book_author}}</p>
+    <div class="container">
+      {% for book in books %}
+        <div class="row">
+          {% for chunked_book in book %}
+            <div class="col">
+              <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    <img src="{{ chunked_book.book_image_url }}" class="card-img" alt="{{chunked_book.book_name}}">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ chunked_book.book_name }}</h5>
+                      <p class="card-text">{{chunked_book.book_author}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          {% endfor %}
         </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
