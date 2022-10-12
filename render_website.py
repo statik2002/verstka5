@@ -22,7 +22,7 @@ def on_reload():
     chunked_books = list(chunked(books, 2))
 
     rendered_page = template.render(
-        books=chunked_books
+        chunked_books=chunked_books
     )
 
     with open('index.html', 'w', encoding="utf8") as file:
