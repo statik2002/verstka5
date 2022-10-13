@@ -29,13 +29,12 @@ def on_reload():
 
     books_per_page = 10
 
-    all_chunks = ichunked(books, books_per_page)
+    pages_chunks = ichunked(books, books_per_page)
 
     page_count = 1
     total_pages = len(books) // books_per_page
-    root = '.'
 
-    for chunked_page in all_chunks:
+    for chunked_page in pages_chunks:
 
         chunked_books = list(chunked(chunked_page, 2))
 
