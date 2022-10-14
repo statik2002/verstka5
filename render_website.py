@@ -11,6 +11,10 @@ from more_itertools import chunked, ichunked
 
 
 def on_reload():
+
+    pages_dir = 'pages'
+    Path(pages_dir).mkdir(exist_ok=True)
+
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
@@ -19,11 +23,8 @@ def on_reload():
     template = env.get_template('template.html')
 
     with open('books/books.json', 'r') as books_file:
-        books_json = books_file.read()
+        books = json.load(books_file)
 
-    books = json.loads(books_json)
-    pages_dir = 'pages'
-    Path(pages_dir).mkdir(exist_ok=True)
     books_per_page = 10
     pages_chunks = ichunked(books, books_per_page)
     total_pages = len(books) // books_per_page
@@ -35,10 +36,10 @@ def on_reload():
         rendered_page = template.render(
             chunked_books=list(chunked_books),
             total_pages=total_pages,
-            current_page=page_count,
+            current_page=page_count+1,
         )
 
-        with open(Path(pages_dir).joinpath(f'index{page_count}.html'), 'w', encoding="utf8") as file:
+        with open(Path(pages_dir).joinpath(f'index{page_count+1}.html'), 'w', encoding="utf8") as file:
             file.write(rendered_page)
 
 
