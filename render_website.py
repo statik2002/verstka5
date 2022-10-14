@@ -22,19 +22,13 @@ def on_reload():
         books_json = books_file.read()
 
     books = json.loads(books_json)
-
     pages_dir = 'pages'
-
     Path(pages_dir).mkdir(exist_ok=True)
-
     books_per_page = 10
-
     pages_chunks = ichunked(books, books_per_page)
-
-    page_count = 1
     total_pages = len(books) // books_per_page
 
-    for chunked_page in pages_chunks:
+    for page_count, chunked_page in enumerate(pages_chunks):
 
         chunked_books = list(chunked(chunked_page, 2))
 
@@ -46,8 +40,6 @@ def on_reload():
 
         with open(Path(pages_dir).joinpath(f'index{page_count}.html'), 'w', encoding="utf8") as file:
             file.write(rendered_page)
-
-        page_count += 1
 
 
 def main():
